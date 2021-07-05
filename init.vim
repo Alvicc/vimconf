@@ -1,5 +1,5 @@
 " Line numbers
-let mapleader=','
+let mapleader=' '
 
 " Crusor to a block
 let &t_ti.="\e[1 q"
@@ -25,7 +25,11 @@ set noswapfile
 set hidden
 set shiftwidth=4
 set expandtab
-set omnifunc=syntaxcomplete
+set omnifunc=ale#completion#OmniFunc
+
+let g:ale_completion_enabled = 1
+let g:ale_set_balloons = 1
+set completeopt="menu,menuone,popup,noselect,noinsert"
 
 " Plugins
 call plug#begin(stdpath('data') . '/plugged')
@@ -36,24 +40,15 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug ''
-"
 call plug#end()
 
 
@@ -77,22 +72,14 @@ nmap <leader>h :noh <CR>
 " Airline theme
 let g:airline_theme='powerlineish'
 
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 " UltSnip
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-
 nmap <C-p> :FZF<cr>
+
+" ALE bindings
+nnoremap <leader>gd :ALEGoToDefinition<CR>
+nnoremap <leader>gf :ALEFindReferences<CR>
+nnoremap <leader>gh :ALEHover<CR>
