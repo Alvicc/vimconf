@@ -27,12 +27,13 @@ set shiftwidth=4
 set expandtab
 " set omnifunc=ale#completion#OmniFunc
 
-let g:ale_completion_enabled = 0
+" let g:ale_completion_enabled = 0
 let g:ale_set_balloons = 1
+
 set completeopt="menu,menuone,popup,noselect,noinsert"
 
-" let g:syntastic_c_check_header = 1
-" let g:syntastic_c_include_dirs = ["../include","include", "../Inc"]
+let g:ale_c_cc_autoinclude_source_dir = 1
+let g:ale_c_parse_makefile = 1
 
 "Plugins
 call plug#begin(stdpath('data') . '/plugged')
@@ -52,7 +53,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'Shougo/echodoc'
-Plug 'vim-syntastic/syntastic'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -64,9 +64,7 @@ endif
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('sources', {
-\ '_': ['ale'],
-\})
+call deoplete#custom#option('sources', { '_': ['ale'], })
 
 set cmdheight=2
 let g:echodoc_enable_at_startup = 1
@@ -108,10 +106,4 @@ nnoremap <leader>gf :ALEFindReferences<CR>
 nnoremap <leader>gh :ALEHover<CR>
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0

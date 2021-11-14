@@ -2,4 +2,6 @@ call plug#begin(stdpath('data') . '/plugged')
     Plug 'stevearc/vim-arduino'
 call plug#end()
 
-let g:syntastic_arduino_checkers = ['syntastic-c-avrgcc']
+let g:ale_linter_aliases = {'arduino': 'c'}
+let g:ale_c_cc_autoinclude_source_dir = 1
+let g:ale_c_parse_makefile = 0
