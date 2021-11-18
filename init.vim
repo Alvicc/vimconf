@@ -12,7 +12,7 @@ filetype plugin indent on
 colorscheme monokai
 
 set number
-set cursorline
+" set cursorline
 set mouse=a
 set tabstop=4
 set colorcolumn=80
@@ -27,10 +27,10 @@ set shiftwidth=4
 set expandtab
 " set omnifunc=ale#completion#OmniFunc
 
-" let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 0
 let g:ale_set_balloons = 1
 
-set completeopt="menu,menuone,popup,noselect,noinsert"
+" set completeopt="menu,menuone,popup,noselect,noinsert"
 
 let g:ale_c_cc_autoinclude_source_dir = 1
 let g:ale_c_parse_makefile = 1
@@ -52,7 +52,10 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'Shougo/echodoc'
+" Plug 'Shougo/echodoc'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -63,20 +66,46 @@ endif
 " Plug ''
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('sources', { '_': ['ale'], })
+let g:racer_cmd = "/home/alex/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
 
-set cmdheight=2
-let g:echodoc_enable_at_startup = 1
-" let g:echodoc#type = 'floating'
-" let g:echodoc#type = 'virtual'
-    
+let g:ale_linters = {'rust': ['analyzer']}
+let g:ale_rust_analyzer_config = {
+      \ 'diagnostics': { 'disabled': ['unresolved-import', 'unresolved-macro-call', 'macro-error'] },
+      \ 'cargo': { 'loadOutDirsFromCheck': v:true },
+      \ 'procMacro': { 'enable': v:true },
+      \ 'checkOnSave': { 'command': 'clippy', 'enable': v:false }
+      \ }
+
+let g:rustfmt_autosave = 1
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#option('sources', { '_': ['racer'], })
+
+" set cmdheight=3
+" let g:echodoc_enable_at_startup = 1
+" let g:echodoc#type = "virtual"
 
 " Remap ESC to exit terminal mode
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
+"
 
+" augroup Racer
+"     autocmd!
+"     autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
+"     autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+"     autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+"     autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+"     autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+"     autocmd FileType rust nmap <buffer> <leader>gD <Plug>(rust-doc-tab)
+" augroup END
+
+nmap <f5> :!cargo run<CR>
+nmap <f6> :!cargo test<CR>
+nmap <leader>c :!cargo check<CR>
 
 " " -----------------------------------------------------------------------------
 "     - Resizing panes -
