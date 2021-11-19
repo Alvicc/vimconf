@@ -70,12 +70,12 @@ let g:racer_cmd = "/home/alex/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
 
-let g:ale_linters = {'rust': ['analyzer']}
+let g:ale_linters = {'rust': ['cargo']}
 let g:ale_rust_analyzer_config = {
-      \ 'diagnostics': { 'disabled': ['unresolved-import', 'unresolved-macro-call', 'macro-error'] },
+      \ 'diagnostics': { 'disabled': ['unresolved-macro-call', 'macro-error'] },
       \ 'cargo': { 'loadOutDirsFromCheck': v:true },
       \ 'procMacro': { 'enable': v:true },
-      \ 'checkOnSave': { 'command': 'clippy', 'enable': v:false }
+      \ 'checkOnSave': { 'command': 'clippy', 'enable': v:true }
       \ }
 
 let g:rustfmt_autosave = 1
