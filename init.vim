@@ -1,4 +1,4 @@
-" Line numbers
+" Leader Char
 let mapleader=' '
 
 " Crusor to a block
@@ -10,6 +10,8 @@ let &t_te.="\e[0 q"
 syntax enable
 filetype plugin indent on
 colorscheme monokai
+hi Normal guibg=NONE ctermbg=NONE
+highlight ColorColumn ctermbg=168
 
 set number
 " set cursorline
@@ -70,12 +72,12 @@ let g:racer_cmd = "/home/alex/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
 
-let g:ale_linters = {'rust': ['cargo']}
+let g:ale_linters = {'rust': ['analyzer']}
 let g:ale_rust_analyzer_config = {
-      \ 'diagnostics': { 'disabled': ['unresolved-macro-call', 'macro-error'] },
+      \ 'diagnostics': { 'disabled': ['unresolved-macro-call', 'macro-error', 'incorrect-ident-case'] },
       \ 'cargo': { 'loadOutDirsFromCheck': v:true },
       \ 'procMacro': { 'enable': v:true },
-      \ 'checkOnSave': { 'command': 'clippy', 'enable': v:true }
+      \ 'checkOnSave': { 'command': 'clippy', 'enable': v:true, 'allTargets' : v:false }
       \ }
 
 let g:rustfmt_autosave = 1
@@ -83,25 +85,10 @@ let g:deoplete#enable_at_startup = 1
 
 call deoplete#custom#option('sources', { '_': ['racer'], })
 
-" set cmdheight=3
-" let g:echodoc_enable_at_startup = 1
-" let g:echodoc#type = "virtual"
-
 " Remap ESC to exit terminal mode
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif
-"
-
-" augroup Racer
-"     autocmd!
-"     autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
-"     autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
-"     autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
-"     autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
-"     autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
-"     autocmd FileType rust nmap <buffer> <leader>gD <Plug>(rust-doc-tab)
-" augroup END
 
 nmap <f5> :!cargo run<CR>
 nmap <f6> :!cargo test<CR>
